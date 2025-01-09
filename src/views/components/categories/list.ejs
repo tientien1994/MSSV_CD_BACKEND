@@ -27,7 +27,9 @@
               <td><%=category.code%></td>
               <td><%=category.name%></td>
               <td>
-                <a class="btn btn-primary btn-sm" href="/categories/update/<%=category._id%>">Sửa</a></td>
+                <a class="btn btn-primary btn-sm" href="/categories/update/<%=category._id%>">Sửa</a>
+                <a class="btn btn-danger btn-sm" href="/categories/delete/<%=category._id%>">Xoá</a>
+              </td>
             </tr>
             <% }); %>
           </tbody>

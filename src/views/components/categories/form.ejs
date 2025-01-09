@@ -7,6 +7,9 @@
       <% if (mode === "Update") { %>
         Cập nhật loại sản phẩm
       <% } %>
+      <% if (mode === "Delete") { %>
+        Bạn có đồng ý xoá sản phẩm <%=category?.name%>
+      <% } %>
       
     </h4>
     <div class="card">
@@ -25,6 +28,17 @@
               />
             </div>
         <% } %>
+        <% if (mode === "Delete") { %>
+          <form action="/categories/delete" method="post">
+            <div class="form-group hide">
+              <input
+                name="id"
+                type="text"
+                value="<%=category?._id%>"
+                id="id"
+              />
+            </div>
+        <% } %>
           <div class="form-group">
             <label for="code">Mã loại sản phẩm</label>
             <input
@@ -34,6 +48,7 @@
               class="form-control"
               id="code"
               placeholder="Nhập mã sản phẩm"
+              disabled="<%=mode==='Delete' ? true : false%>"
             />
           </div>
           <div class="form-group">
@@ -45,6 +60,7 @@
               class="form-control"
               id="name"
               placeholder="Nhập tên sản phẩm"
+              disabled="<%=mode==='Delete' ? true : false%>"
             />
           </div>
           <div class="form-group">
@@ -56,6 +72,7 @@
               class="form-control"
               id="image"
               placeholder="Nhập link hình ảnh"
+              disabled="<%=mode==='Delete' ? true : false%>"
             />
           </div>
           <div class="card-action">
@@ -63,7 +80,10 @@
               <button class="btn btn-success" type="submit">Tạo</button>
             <% } %>
             <% if (mode === "Update") { %>
-              <button class="btn btn-success" type="submit">Cập nhật</button>
+              <button class="btn btn-success" type="submit">Sửa</button>
+            <% } %>
+            <% if (mode === "Delete") { %>
+              <button class="btn btn-danger" type="submit">Xoá</button>
             <% } %>
 
             <a class="btn btn-primary" href="/categories">
