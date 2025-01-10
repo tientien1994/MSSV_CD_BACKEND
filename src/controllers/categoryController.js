@@ -1,8 +1,16 @@
 import CategoryModel from "../models/categoryModel.js"
 import { ObjectId } from "mongodb"
+import { removeVietnameseAccents } from "../common/index.js"
 export async function listCategory(req, res) {
+    const search = req.query?.search
+    let filters = {
+        deletedAt: null
+    }
+    if(search && search.length > 0) {
+        filters.searchString = { $regex: removeVietnameseAccents(search), $options: "i" }
+    }
     try {
-        const categories = await CategoryModel.find({ deletedAt: null })
+        const categories = await CategoryModel.find(filters)
         res.render("pages/categories/list", {
             title: "Categories",
             categories: categories,
@@ -22,10 +30,10 @@ export async function renderPageCreateCategory(req, res) {
 }
 
 export async function createCategory(req, res) {
-    const { code, name, image } = req.body
+    const data = req.body
     try {
         await CategoryModel.create({
-            code, name, image, createdAt: new Date()
+            ...data, createdAt: new Date()
         })
         res.redirect("/categories")
     } catch (error) {
@@ -56,14 +64,12 @@ export async function renderPageUpdateCategory(req, res) {
 }
 
 export async function updateCategory(req, res) {
-    const { code, name, image, id } = req.body
+    const { id, ...data } = req.body
     try {
         await CategoryModel.updateOne(
             { _id: new ObjectId(id) },
             {
-                code,
-                name,
-                image,
+                ...data,
                 updatedAt: new Date()
             })
         res.redirect("/categories")

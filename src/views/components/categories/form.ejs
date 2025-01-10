@@ -45,10 +45,9 @@
               name="code"
               type="text"
               value="<%=category?.code%>"
-              class="form-control"
+              class="form-control categoryInput"
               id="code"
               placeholder="Nhập mã sản phẩm"
-              disabled="<%=mode==='Delete' ? true : false%>"
             />
           </div>
           <div class="form-group">
@@ -57,10 +56,20 @@
               name="name"
               type="text"
               value="<%=category?.name%>"
-              class="form-control"
+              class="form-control categoryInput"
               id="name"
               placeholder="Nhập tên sản phẩm"
-              disabled="<%=mode==='Delete' ? true : false%>"
+            />
+          </div>
+          <div class="form-group">
+            <label for="searchString">Chuỗi tìm kiếm</label>
+            <input
+              name="searchString"
+              type="text"
+              value="<%=category?.searchString%>"
+              class="form-control categoryInput"
+              id="searchString"
+              placeholder="Nhập tên chuỗi tìm kiếm"
             />
           </div>
           <div class="form-group">
@@ -69,10 +78,9 @@
               name="image"
               type="text"
               value="<%=category?.image%>"
-              class="form-control"
+              class="form-control categoryInput"
               id="image"
               placeholder="Nhập link hình ảnh"
-              disabled="<%=mode==='Delete' ? true : false%>"
             />
           </div>
           <div class="card-action">
