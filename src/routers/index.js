@@ -1,6 +1,6 @@
 import categoryRoute from "./categoryRoute.js"
 
-export default function routers(app){
+export default function routers(app, __dirname){
     app.use("/categories", categoryRoute)
     app.get('/', (req, res) => {
         res.render("pages/index", {

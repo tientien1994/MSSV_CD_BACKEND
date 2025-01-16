@@ -18,14 +18,14 @@
           <form action="/categories/create" method="post">
         <% } %>
         <% if (mode === "Update") { %>
-          <form action="/categories/update" method="post">
-            <div class="form-group hide">
+          <form action="/categories/update/<%=category?._id%>" method="post">
+            <!-- <div class="form-group hide">
               <input
                 name="id"
                 type="text"
                 value="<%=category?._id%>"
                 id="id"
-              />
+              /> -->
             </div>
         <% } %>
         <% if (mode === "Delete") { %>
@@ -39,7 +39,13 @@
               />
             </div>
         <% } %>
-          <div class="form-group">
+
+        <!-- <div class="form-group has-error has-feedback">
+          <label for="errorInput">Error Input</label>
+          <input type="text" id="errorInput" value="Error" class="form-control">
+          <small id="emailHelp" class="form-text text-muted">Please provide a valid informations.</small>
+      </div> -->
+          <div class="form-group <%=err?.code && 'has-error has-feedback'%>">
             <label for="code">Mã loại sản phẩm</label>
             <input
               name="code"
@@ -49,8 +55,9 @@
               id="code"
               placeholder="Nhập mã sản phẩm"
             />
+            <small class="form-text text-muted text-danger"><%=err?.code%></small>
           </div>
-          <div class="form-group">
+          <div class="form-group <%=err.name && 'has-error has-feedback'%>">
             <label for="name">Tên loại sản phẩm</label>
             <input
               name="name"
@@ -60,8 +67,9 @@
               id="name"
               placeholder="Nhập tên sản phẩm"
             />
+            <small class="form-text text-muted text-danger"><%=err?.name%></small>
           </div>
-          <div class="form-group">
+          <div class="form-group <%=err.searchString && 'has-error has-feedback'%>">
             <label for="searchString">Chuỗi tìm kiếm</label>
             <input
               name="searchString"
@@ -71,8 +79,9 @@
               id="searchString"
               placeholder="Nhập tên chuỗi tìm kiếm"
             />
+            <small class="form-text text-muted text-danger"><%=err?.searchString%></small>
           </div>
-          <div class="form-group">
+          <div class="form-group <%=err.image && 'has-error has-feedback'%>">
             <label for="image">Link hình ảnh</label>
             <input
               name="image"
@@ -82,6 +91,7 @@
               id="image"
               placeholder="Nhập link hình ảnh"
             />
+            <small class="form-text text-muted text-danger"><%=err?.image%></small>
           </div>
           <div class="card-action">
             <% if (mode === "Create") { %>

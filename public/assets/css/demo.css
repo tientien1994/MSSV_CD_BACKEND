@@ -132,3 +132,12 @@
 .max-w-20{
 	max-width: 20rem;
 }
+.m-0{
+	margin: 0;
+}
+.p-0{
+	padding: 0;
+}
+.mb-0{
+	margin-bottom: 0!important;
+}
