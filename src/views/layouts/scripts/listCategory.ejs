@@ -11,8 +11,8 @@
     let url = "/categories?" + queryString.join("&&");
     window.location.href = url;
   }
-  function changePageSize(event){
-    let selectedValue = event.target.value
+  function changePageSize(event) {
+    let selectedValue = event.target.value;
     let urlParams = new URLSearchParams(window.location.search);
     let queryString = [];
     urlParams.forEach((value, key) => {
@@ -20,31 +20,31 @@
         queryString.push(`${key}=${value}`);
       }
     });
-    queryString.push("page=1&&pageSize="+selectedValue);
+    queryString.push("page=1&&pageSize=" + selectedValue);
     let url = "/categories?" + queryString.join("&&");
     window.location.href = url;
   }
-  function setPageSize(){
+  function setPageSize() {
     let urlParams = new URLSearchParams(window.location.search);
-    const pageSize = urlParams.get("pageSize")
-    if(pageSize){
-      $(`#defaultSelect option[value='${pageSize}']`).prop("selected", true)
+    const pageSize = urlParams.get("pageSize");
+    if (pageSize) {
+      $(`#defaultSelect option[value='${pageSize}']`).prop("selected", true);
     }
   }
-  setPageSize()
-  function nextPage(){
-    const maxPageString = "<%=countPagination%>"
-    const maxPage = parseInt(maxPageString)
+  setPageSize();
+  function nextPage() {
+    const maxPageString = "<%=countPagination%>";
+    const maxPage = parseInt(maxPageString);
     let urlParams = new URLSearchParams(window.location.search);
-    let page = urlParams.get("page")
-    let nextPage = null
+    let page = urlParams.get("page");
+    let nextPage = null;
     let queryString = [];
-    if(!page){
-      nextPage = 2
-    } else { 
-      nextPage = parseInt(page) + 1
+    if (!page) {
+      nextPage = 2;
+    } else {
+      nextPage = parseInt(page) + 1;
     }
-    if(nextPage > maxPage) return
+    if (nextPage > maxPage) return;
     urlParams.forEach((value, key) => {
       if (key !== "page") {
         queryString.push(`${key}=${value}`);
@@ -54,17 +54,17 @@
     let url = "/categories?" + queryString.join("&&");
     window.location.href = url;
   }
-  function prevPage(){
+  function prevPage() {
     let urlParams = new URLSearchParams(window.location.search);
-    let page = urlParams.get("page")
-    let prevPage = null
+    let page = urlParams.get("page");
+    let prevPage = null;
     let queryString = [];
-    if(!page){
-      prevPage = 0
-    } else { 
-      prevPage = parseInt(page) - 1
+    if (!page) {
+      prevPage = 0;
+    } else {
+      prevPage = parseInt(page) - 1;
     }
-    if(prevPage < 1) return
+    if (prevPage < 1) return;
     urlParams.forEach((value, key) => {
       if (key !== "page") {
         queryString.push(`${key}=${value}`);
@@ -74,10 +74,10 @@
     let url = "/categories?" + queryString.join("&&");
     window.location.href = url;
   }
-  function changeSort(event){
-    const value = event.target.value
+  function changeSort(event) {
+    const value = event.target.value;
     let urlParams = new URLSearchParams(window.location.search);
-    let page = urlParams.get("sort")
+    let page = urlParams.get("sort");
     let queryString = [];
     urlParams.forEach((value, key) => {
       if (key !== "sort") {
@@ -88,9 +88,16 @@
     let url = "/categories?" + queryString.join("&&");
     window.location.href = url;
   }
-  function toggleCategory(){
-    $("#modalCategory").addClass("show");
-    $("#modalCategory").css("display", "block")
-    $("#modalCategory").css("background-color", "#00000046")
+  function toggleCategory() {
+    const modalCategory = $("#modalCategory");
+    if (modalCategory.hasClass("show")) {
+      $("#modalCategory").removeClass("show");
+      $("#modalCategory").css("display", "");
+      $("#modalCategory").css("background-color", "");
+    } else {
+      $("#modalCategory").addClass("show");
+      $("#modalCategory").css("display", "block");
+      $("#modalCategory").css("background-color", "#00000046");
+    }
   }
 </script>
