@@ -88,4 +88,9 @@
     let url = "/categories?" + queryString.join("&&");
     window.location.href = url;
   }
+  function toggleCategory(){
+    $("#modalCategory").addClass("show");
+    $("#modalCategory").css("display", "block")
+    $("#modalCategory").css("background-color", "#00000046")
+  }
 </script>
