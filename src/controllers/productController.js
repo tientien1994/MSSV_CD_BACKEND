@@ -1,4 +1,4 @@
-import CategoryModel from "../models/categoryModel.js"
+import ProductModel from "../models/productModel.js"
 import { ObjectId } from "mongodb"
 import { removeVietnameseAccents } from "../common/index.js"
 
@@ -8,7 +8,7 @@ const sortObjects = [
     { code: "code_DESC", name: "Mã giảm dần" },
     { code: "code_ASC", name: "Mã tăng dần" },
 ]
-export async function listCategory(req, res) {
+export async function listProduct(req, res) {
     const search = req.query?.search
     const pageSize = !!req.query.pageSize ? parseInt(req.query.pageSize) : 5
     const page = !!req.query.page ? parseInt(req.query.page) : 1
@@ -25,14 +25,13 @@ export async function listCategory(req, res) {
     } else {
         const sortArray = sort.split('_')
         sort = { [sortArray[0]]: sortArray[1] === "ASC" ? 1 : -1}
-        console.log("sort", sort)
     }
     try {
-        const countCategories = await CategoryModel.countDocuments(filters)
-        const categories = await CategoryModel.find(filters).skip(skip).limit(pageSize).sort(sort)
-        res.render("pages/categories/list", {
-            title: "Categories",
-            categories: categories,
+        const countCategories = await ProductModel.countDocuments(filters)
+        const products = await ProductModel.find(filters).skip(skip).limit(pageSize).sort(sort)
+        res.render("pages/products/list", {
+            title: "Products",
+            products: products,
             countPagination: Math.ceil(countCategories / pageSize),
             pageSize,
             page,
@@ -45,7 +44,7 @@ export async function listCategory(req, res) {
     }
 
 }
-export async function renderPageCreateCategory(req, res) {
+export async function renderPageCreateProduct(req, res) {
     res.render("pages/categories/form", {
         title: "Create Categories",
         mode: "Create",
@@ -54,7 +53,7 @@ export async function renderPageCreateCategory(req, res) {
     })
 }
 
-export async function createCategory(req, res) {
+export async function createProduct(req, res) {
     const data = req.body
     try {
         const category = await CategoryModel.findOne({ code: data.code, deletedAt: null})
@@ -86,7 +85,7 @@ export async function createCategory(req, res) {
         })
     }
 }
-export async function createCategoryByModal(req, res) {
+export async function createProductByModal(req, res) {
     const data = req.body
     try {
         const category = await CategoryModel.create({
@@ -100,7 +99,7 @@ export async function createCategoryByModal(req, res) {
 }
 
 
-export async function renderPageUpdateCategory(req, res) {
+export async function renderPageUpdateProduct(req, res) {
     try {
         const { id } = req.params
         const category = await CategoryModel.findOne({ _id: new ObjectId(id), deletedAt: null })
@@ -121,7 +120,7 @@ export async function renderPageUpdateCategory(req, res) {
 
 }
 
-export async function updateCategory(req, res) {
+export async function updateProduct(req, res) {
     const { ...data } = req.body
     const { id } = req.params
     try {
@@ -163,7 +162,7 @@ export async function updateCategory(req, res) {
 
 }
 
-export async function renderPageDeleteCategory(req, res) {
+export async function renderPageDeleteProduct(req, res) {
     try {
         const { id } = req.params
         const category = await CategoryModel.findOne({ _id: new ObjectId(id), deletedAt: null })
@@ -183,7 +182,7 @@ export async function renderPageDeleteCategory(req, res) {
     }
 }
 
-export async function deleteCategory(req, res) {
+export async function deleteProduct(req, res) {
     const { id } = req.body
     try {
         await CategoryModel.updateOne(

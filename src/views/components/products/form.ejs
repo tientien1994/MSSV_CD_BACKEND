@@ -1,0 +1,115 @@
+<div class="content">
+  <div class="container-fluid">
+    <h4 class="page-title">
+      <% if (mode === "Create") { %>
+        Tạo loại sản phẩm mới
+      <% } %>
+      <% if (mode === "Update") { %>
+        Cập nhật loại sản phẩm
+      <% } %>
+      <% if (mode === "Delete") { %>
+        Bạn có đồng ý xoá sản phẩm <%=category?.name%>
+      <% } %>
+      
+    </h4>
+    <div class="card">
+      <div class="card-body">
+        <% if (mode === "Create") { %>
+          <form action="/categories/create" method="post">
+        <% } %>
+        <% if (mode === "Update") { %>
+          <form action="/categories/update/<%=category?._id%>" method="post">
+            <!-- <div class="form-group hide">
+              <input
+                name="id"
+                type="text"
+                value="<%=category?._id%>"
+                id="id"
+              /> -->
+            </div>
+        <% } %>
+        <% if (mode === "Delete") { %>
+          <form action="/categories/delete" method="post">
+            <div class="form-group hide">
+              <input
+                name="id"
+                type="text"
+                value="<%=category?._id%>"
+                id="id"
+              />
+            </div>
+        <% } %>
+
+        <!-- <div class="form-group has-error has-feedback">
+          <label for="errorInput">Error Input</label>
+          <input type="text" id="errorInput" value="Error" class="form-control">
+          <small id="emailHelp" class="form-text text-muted">Please provide a valid informations.</small>
+      </div> -->
+          <div class="form-group <%=err?.code && 'has-error has-feedback'%>">
+            <label for="code">Mã loại sản phẩm</label>
+            <input
+              name="code"
+              type="text"
+              value="<%=category?.code%>"
+              class="form-control categoryInput"
+              id="code"
+              placeholder="Nhập mã sản phẩm"
+            />
+            <small class="form-text text-muted text-danger"><%=err?.code%></small>
+          </div>
+          <div class="form-group <%=err.name && 'has-error has-feedback'%>">
+            <label for="name">Tên loại sản phẩm</label>
+            <input
+              name="name"
+              type="text"
+              value="<%=category?.name%>"
+              class="form-control categoryInput"
+              id="name"
+              placeholder="Nhập tên sản phẩm"
+            />
+            <small class="form-text text-muted text-danger"><%=err?.name%></small>
+          </div>
+          <div class="form-group <%=err.searchString && 'has-error has-feedback'%>">
+            <label for="searchString">Chuỗi tìm kiếm</label>
+            <input
+              name="searchString"
+              type="text"
+              value="<%=category?.searchString%>"
+              class="form-control categoryInput"
+              id="searchString"
+              placeholder="Nhập tên chuỗi tìm kiếm"
+            />
+            <small class="form-text text-muted text-danger"><%=err?.searchString%></small>
+          </div>
+          <div class="form-group <%=err.image && 'has-error has-feedback'%>">
+            <label for="image">Link hình ảnh</label>
+            <input
+              name="image"
+              type="text"
+              value="<%=category?.image%>"
+              class="form-control categoryInput"
+              id="image"
+              placeholder="Nhập link hình ảnh"
+            />
+            <small class="form-text text-muted text-danger"><%=err?.image%></small>
+          </div>
+          <div class="card-action">
+            <% if (mode === "Create") { %>
+              <button class="btn btn-success" type="submit">Tạo</button>
+            <% } %>
+            <% if (mode === "Update") { %>
+              <button class="btn btn-success" type="submit">Sửa</button>
+            <% } %>
+            <% if (mode === "Delete") { %>
+              <button class="btn btn-danger" type="submit">Xoá</button>
+            <% } %>
+
+            <a class="btn btn-primary" href="/categories">
+              Trở về trang danh sách sản phẩm
+            </a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

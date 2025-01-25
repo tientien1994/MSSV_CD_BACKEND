@@ -88,17 +88,75 @@
     let url = "/categories?" + queryString.join("&&");
     window.location.href = url;
   }
-  function toggleCategory() {
-    const modalCategory = $("#modalCategory");
-    if (modalCategory.hasClass("show")) {
+
+  async function createCategory() {
+    const codeModal = $("#codeModal").val();
+    const nameModal = $("#nameModal").val();
+    const searchStringModal = $("#searchStringModal").val();
+    const imageModal = $("#imageModal").val();
+    const url = "http://localhost:5001/categories/createByModal";
+    let dataModal = {};
+    await $.post(
+      url,
+      {
+        code: codeModal,
+        name: nameModal,
+        searchString: searchStringModal,
+        image: imageModal,
+      },
+      (data, status) => {
+        dataModal = data;
+      }
+    );
+    if (dataModal?.success) {
+      $("#listCategory").prepend(`
+             <tr>
+              <td></td>
+              <td>
+                <img
+                  src="/static/assets/img/${dataModal.category.image}"
+                  alt="image"
+                  class="category-label"
+                />
+              </td>
+              <td>${dataModal.category.code}</td>
+              <td>${dataModal.category.name}</td>
+              <td>
+                <a
+                  class="btn btn-primary btn-sm"
+                  href="/categories/update/${dataModal.category._id}"
+                  >Sửa</a
+                >
+                <a
+                  class="btn btn-danger btn-sm"
+                  href="/categories/delete/${dataModal.category._id}"
+                  >Xoá</a
+                >
+              </td>
+            </tr>`);
       $("#modalCategory").removeClass("show");
       $("#modalCategory").css("display", "");
       $("#modalCategory").css("background-color", "");
-      showNotify('Tao san pham thanh cong', 'danger', 'withicon')
+      showNotify(
+        `Loại sản phẩm ${dataModal.category.name}`,
+        "success",
+        "withicon"
+      );
     } else {
-      $("#modalCategory").addClass("show");
-      $("#modalCategory").css("display", "block");
-      $("#modalCategory").css("background-color", "#00000046");
+      showNotify(`Loại sản phẩm không thành công`, "danger", "withicon");
+    }
+  }
+
+  async function toggleCategory() {
+    const modalCategory = $("#modalCategory");
+    if (modalCategory.hasClass("show")) {
+      modalCategory.removeClass("show");
+      modalCategory.css("display", "");
+      modalCategory.css("background-color", "");
+    } else {
+      modalCategory.addClass("show");
+      modalCategory.css("display", "block");
+      modalCategory.css("background-color", "#00000046");
     }
   }
 </script>
