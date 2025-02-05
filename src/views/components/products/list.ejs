@@ -1,7 +1,7 @@
 <div class="content">
   <div class="container-fluid">
     <div class="flex items-center justify-content-between">
-      <h4 class="page-title mb-0">Danh sách loại sản phẩm</h4>
+      <h4 class="page-title mb-0">Danh sách sản phẩm</h4>
       <a class="btn btn-default" href="/products/create">Tạo loại sản phẩm</a>
       <!-- <a class="btn btn-default" onclick="toggleCategory()">Tạo modal</a> -->
       
@@ -60,11 +60,14 @@
               </td>
               <td><%=product.price%></td>
               <td>
-                <%product.color.forEach(function(color, index){ %>
-                  <span class="badge w-2" style="background-color: <%=color%>"></span>
-                <%})%>
+                <div class="form-group flex gap-2">
+                  <label for="image">Color</label>
+                  <% product.colors.forEach(function(color, index){ %>
+                      <span class="product-checkbox-label mr-1 bg-<%=color%>"></span>
+                  <%})%>
+                </div>
               </td>
-              <td><%=product.categoryId%></td>
+              <td><%=product.category?.name%></td>
               <td>
                 <a
                   class="btn btn-primary btn-sm"

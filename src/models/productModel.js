@@ -8,30 +8,49 @@ const productSchema = new Schema({
     },
     name: {
         required: [true, "Bắt buộc phải nhập tên"],
-        type: String, 
+        type: String,
     },
     price: {
         required: [true, "Bắt buộc phải nhập giá sp"],
-        type: Number, 
+        type: Number,
     },
     searchString: {
         required: [true, "Bắt buộc phải nhập chuỗi tìm kiếm"],
         type: String,
     },
-    size: [String],
-    color: [String],
-    active: Boolean,
-    description: String,
-    infomation: String,
     images: [String],
-    categoryId: Object,
+    sizes: {
+        type: [String],
+        enum: ["S", "M", "L", "XL"]
+    },
+    colors: {
+        type: [String],
+        enum: ["red", "green", "yellow", "white", "black"]
+    },
+    active: String,
+    description: String,
+    information: String,
+    categoryId: Schema.Types.ObjectId,
     createdAt: Date,
     updatedAt: Date,
     deletedAt: Date
-},{
+}, {
     versionKey: false,
-    collection: "products"
+    collection: "products",
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 })
+
+productSchema.virtual("category", {
+    ref: "Category",
+    localField: "categoryId",
+    foreignField: "_id",
+    justOne: true
+})
+productSchema.virtual("categoryIdString").get(function(){
+    return !!this.categoryId ? this.categoryId.toString() : ""
+})
+
 
 const ProductModel = mongoose.model("Product", productSchema)
 export default ProductModel

@@ -12,7 +12,7 @@
         <select class="form-control form-control max-w-20 mb-4px" id="defaultSelect" onchange="changeSort(event)">
           <% sortObjects.forEach(function(sortObject, index){ %>
             <%if(sortObject.code === sort){%>
-              <option value="<%=sortObject.code%>"selected ><%=sortObject.name%></option>
+              <option value="<%=sortObject.code%>" selected ><%=sortObject.name%></option>
             <%}%>
             <%if(sortObject.code !== sort){%>
               <option value="<%=sortObject.code%>"><%=sortObject.name%></option>

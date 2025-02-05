@@ -25,7 +25,12 @@ const categorySchema = new Schema({
     deletedAt: Date
 },{
     versionKey: false,
-    collection: "categories"
+    collection: "categories",
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+})
+categorySchema.virtual("id").get(function(){
+    return this._id.toString()
 })
 
 const CategoryModel = mongoose.model("Category", categorySchema)
