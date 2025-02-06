@@ -52,7 +52,23 @@ export async function listOrder(req, res) {
 // }
 
 export async function createOrder(req, res) {
-    const { orderNo, discount, total, status, orderItems } = req.body
+    const { discount, status, orderItems } = req.body
+    let subTotal = 0, total = 0, numericalOrder = 1
+
+    const lastOrder = await OrderModel.findOne().sort({ createdAt: -1 })
+
+    if (lastOrder) {
+        numericalOrder = lastOrder.numericalOrder + 1
+    }
+
+    const orderNo = "order-" + numericalOrder
+
+    if (orderItems.length > 0) {
+        for (let orderItem of orderItems) {
+            subTotal += (orderItem.quantity * orderItem.price)
+        }
+    }
+    total = subTotal * (100 - discount) / 100
     try {
         const rs = await OrderModel.create({
             orderNo: orderNo,
@@ -60,6 +76,7 @@ export async function createOrder(req, res) {
             total: total,
             status: status,
             orderItems: orderItems,
+            numericalOrder: numericalOrder,
             createdAt: new Date()
         })
         res.send(rs)

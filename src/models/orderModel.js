@@ -8,6 +8,10 @@ const orderItemSchema = new Schema(
         quantity: Number,
         total: Number,
         price: Number,
+        color: {
+            type: String,
+            enum: ["red", "green", "yellow", "white", "black"]
+        }, 
     }, {
     versionKey: false,
 });
@@ -18,9 +22,13 @@ const orderSchema = new Schema({
         type: String,
         enum: ["created", "completed", "cancelled", "delivering"]
     },
-    orderItems: [orderItemSchema],
+    orderItems: {
+        type: [orderItemSchema],
+        required: [true, "Bắt buộc phải có sản phẩm trong đơn hàng"],
+    },
     total: Number,
     discount: Number,
+    numericalOrder: Number,
     createdAt: Date,
     updatedAt: Date,
     deletedAt: Date
