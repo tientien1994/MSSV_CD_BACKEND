@@ -1,6 +1,13 @@
 import OrderModel from "../models/orderModel.js"
 import { ObjectId } from "mongodb"
 
+const sortObjects = [
+    { code: "name_DESC", name: "Tên giảm dần" },
+    { code: "name_ASC", name: "Tên tăng dần" },
+    { code: "code_DESC", name: "Mã giảm dần" },
+    { code: "code_ASC", name: "Mã tăng dần" },
+]
+
 export async function listOrder(req, res) {
     const search = req.query?.search
     const pageSize = !!req.query.pageSize ? parseInt(req.query.pageSize) : 5
@@ -22,16 +29,16 @@ export async function listOrder(req, res) {
     try {
         const countOrders = await OrderModel.countDocuments(filters)
         const orders = await OrderModel.find(filters).skip(skip).limit(pageSize).sort(sort)
-        // res.render("pages/products/list", {
-        //     title: "Products",
-        //     products: products,
-        //     countPagination: Math.ceil(countOrders / pageSize),
-        //     pageSize,
-        //     page,
-        //     sort,
-        //     sortObjects
-        // })
-        res.send({ countOrders, orders })
+        res.render("pages/orders/list", {
+            title: "Order",
+            orders: orders,
+            countPagination: Math.ceil(countOrders / pageSize),
+            pageSize,
+            page,
+            sort,
+            sortObjects
+        })
+        // res.send({ countOrders, orders })
     } catch (error) {
         console.log(error)
         res.send("Hiện tại không có order nào!")
