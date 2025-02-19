@@ -2,13 +2,13 @@
   <div class="container-fluid">
     <h4 class="page-title">
       <% if (mode === "Create") { %>
-        Tạo sản phẩm mới
+        Giả lập tạo đơn hàng mới
       <% } %>
       <% if (mode === "Update") { %>
-        Cập nhật loại sản phẩm
+        Cập nhật loại đơn hàng
       <% } %>
       <% if (mode === "Delete") { %>
-        Bạn có đồng ý xoá sản phẩm <%=category?.name%>
+        Giả lập huỷ đơn hàng <%=category?.name%>
       <% } %>
       
     </h4>
@@ -18,12 +18,12 @@
           <form action="/products/create" method="post">
         <% } %>
         <% if (mode === "Update") { %>
-          <form action="/products/update/<%=product?._id%>" method="post">
+          <form action="/products/update/<%=order?._id%>" method="post">
             <div class="form-group hide">
               <input
                 name="id"
                 type="text"
-                value="<%=product?._id%>"
+                value="<%=order?._id%>"
                 id="id"
               />
             </div>
@@ -34,131 +34,124 @@
               <input
                 name="id"
                 type="text"
-                value="<%=product?._id%>"
+                value="<%=order?._id%>"
                 id="id"
               />
             </div>
         <% } %>
-          <div class="form-group <%=err?.code && 'has-error has-feedback'%>">
-            <label for="code">Mã sản phẩm</label>
+          <div class="form-group <%=err?.discount && 'has-error has-feedback'%>">
+            <label for="discount">Mức giảm giá</label>
             <input
-              name="code"
-              type="text"
-              value="<%=product?.code%>"
+              name="discount"
+              type="number"
+              value="<%=order?.discount%>"
               class="form-control categoryInput"
-              id="code"
+              id="discount"
               placeholder="Nhập mã sản phẩm"
             />
-            <small class="form-text text-muted text-danger"><%=err?.code%></small>
+            <small class="form-text text-muted text-danger"><%=err?.discount%></small>
           </div>
-          <div class="form-group <%=err.name && 'has-error has-feedback'%>">
-            <label for="name">Tên sản phẩm</label>
+          <div class="form-group">
+            <label for="code">Danh sách sản phẩm</label>
+            <div  id="listProduct">
+              <div class="flex gap-2">
+                <button class="btn btn-success itemButton" type="submit"><i class="la la-plus"></i></button>
+                <select class="form-control form-control max-w-20 mb-4px" id="itemSelect" name="itemSelect">
+                  <option value="">Chọn sản phẩm</option>
+                  <% products.forEach(function(product, index){%>
+                      <option value="<%=product._id + "-" + product.productCode%>"><%=product.name%></option>
+                  <%})%>
+                </select>
+                <input
+                  name="quantity"
+                  type="number"
+                  value="<%=order?.quantity%>"
+                  class="form-control categoryInput"
+                  id="quantity"
+                  placeholder="Nhập số lượng"
+                />
+                <input
+                  name="itemPrice"
+                  type="number"
+                  value="<%=order?.discount%>"
+                  class="form-control categoryInput"
+                  id="itemPrice"
+                  disabled
+                />
+                <select class="form-control form-control max-w-20 mb-4px" id="itemColor" name="itemColor">
+                  
+                </select>
+                <select class="form-control form-control max-w-20 mb-4px" id="itemSize" name="itemSize">
+                  
+                </select>
+                <button class="btn btn-danger itemButton" type="submit"><i class="la la-trash"></i></button>
+              </div>
+              
+            </div>
+          </div>
+          <p>Địa chỉ giao hàng</p>
+          <div class="form-group">
+            <label for="billingName">Tên khách hàng</label>
             <input
-              name="name"
-              type="text"
-              value="<%=product?.name%>"
-              class="form-control categoryInput"
-              id="name"
-              placeholder="Nhập tên sản phẩm"
-            />
-            <small class="form-text text-muted text-danger"><%=err?.name%></small>
+                  name="billingName"
+                  type="text"
+                  class="form-control categoryInput"
+                  id="billingName"
+                  placeholder="Nhập tên khách hàng"
+                />
           </div>
-          <div class="form-group <%=err.searchString && 'has-error has-feedback'%>">
-            <label for="searchString">Chuỗi tìm kiếm</label>
+          <div class="form-group">
+            <label for="billingEmail">Email</label>
             <input
-              name="searchString"
-              type="text"
-              value="<%=product?.searchString%>"
-              class="form-control categoryInput"
-              id="searchString"
-              placeholder="Nhập tên chuỗi tìm kiếm"
-            />
-            <small class="form-text text-muted text-danger"><%=err?.searchString%></small>
+                  name="billingEmail"
+                  type="email"
+                  class="form-control categoryInput"
+                  id="billingEmail"
+                  placeholder="Nhập email"
+                />
           </div>
-          <div class="form-group <%=err.price && 'has-error has-feedback'%>">
-            <label for="price">Giá</label>
+          <div class="form-group">
+            <label for="billingPhoneNunber">Số điện thoại</label>
             <input
-              name="price"
-              type="number"
-              value="<%=product?.price%>"
-              class="form-control categoryInput"
-              id="price"
-              placeholder="Nhập giá"
-            />
-            <small class="form-text text-muted text-danger"><%=err?.price%></small>
+                  name="billingPhoneNunber"
+                  type="number"
+                  class="form-control categoryInput"
+                  id="billingPhoneNunber"
+                  placeholder="Nhập số điện thoại"
+                />
           </div>
-          <div class="form-group <%=err.images && 'has-error has-feedback'%>">
-            <label for="image">Link hình ảnh</label>
+          <div class="form-group">
+            <label for="billingAddress">Địa chỉ</label>
             <input
-              name="image"
-              type="text"
-              value="<%=typeof product?.images === 'object' ? product?.images[0] : ''%>"
-              class="form-control categoryInput"
-              id="image"
-              placeholder="Nhập link hình ảnh"
-            />
-            <small class="form-text text-muted text-danger"><%=err?.images%></small>
+                  name="billingAddress"
+                  type="text"
+                  class="form-control categoryInput"
+                  id="billingAddress"
+                  placeholder="Nhập địa chỉ"
+                />
           </div>
-          <div class="form-group flex gap-2 <%=err.image && 'has-error has-feedback'%>">
-            <label for="image">Size</label>
-            <% sizes.forEach(function(size, index){ %>
-              <label class="form-check-label">
-                <%if((product.sizes || []).includes(size)){%>
-                  <input class="form-check-input" type="checkbox" name="sizes" value="<%=size%>" checked>
-                <%} else {%>
-                  <input class="form-check-input" type="checkbox" name="sizes" value="<%=size%>">
-                <%}%>
-                <span class="form-check-sign"><%=size%></span>
-            </label>
-            <%})%>
-            <small class="form-text text-muted text-danger"><%=err?.size%></small>
+          <div class="form-group">
+            <label for="billingDistrict">Quận/Huyện</label>
+            <input
+                  name="billingDistrict"
+                  type="text"
+                  class="form-control categoryInput"
+                  id="billingDistrict"
+                  placeholder="Nhập quận/huyện"
+              />
           </div>
-          <div class="form-group flex gap-2 <%=err.image && 'has-error has-feedback'%>">
-            <label for="image">Color</label>
-              <% colors.forEach(function(color, index){ %>
-                <label class="form-check-label flex flex-col">
-                  <%if((product.colors || []).includes(color)){%>
-                    <input class="form-check-input" type="checkbox" value="<%=color%>" name="colors" checked>
-                  <%} else {%>
-                    <input class="form-check-input" type="checkbox" value="<%=color%>" name="colors">
-                  <%}%>
-                  <span class="form-check-sign mr-1">
-                  </span>
-                  <span class="product-checkbox-label bg-<%=color%>"></span>
-                </label>
-              <%})%>
-            <small class="form-text text-muted text-danger"><%=err?.size%></small>
+          <div class="form-group">
+            <label for="billingCity">Thành phố</label>
+            <input
+                  name="billingCity"
+                  type="text"
+                  class="form-control categoryInput"
+                  id="billingCity"
+                  placeholder="Nhập thành phố"
+              />
           </div>
-          <div class="form-group <%=err.active && 'has-error has-feedback'%>">
-            <label for="image">Active</label>
-            <%if(product?.active === "on"){%>
-              <input type="checkbox" checked data-toggle="toggle" data-onstyle="default" name="active">
-            <%} else{%>
-              <input type="checkbox" data-toggle="toggle" data-onstyle="default" name="active">
-              <%}%>
-            
-          </div>
-          <div class="form-group <%=err.active && 'has-error has-feedback'%>">
-            <label for="image">Description</label>
-            <textarea class="form-control" id="comment" name="description" rows="5" active><%=product.description%></textarea>
-          </div>
-          <div class="form-group <%=err.active && 'has-error has-feedback'%>">
-            <label for="image">Information</label>
-            <textarea class="form-control" id="comment" name="information" rows="5"><%=product.information%></textarea>
-          </div>
-          <div class="form-group <%=err.active && 'has-error has-feedback'%>">
-            <label for="image">Category</label>
-            <select class="form-control form-control max-w-20 mb-4px" id="defaultSelect" name="categoryId">
-              <% categories.forEach(function(category, index){%>
-                <%if(category.id===product?.categoryIdString){%>
-                  <option value="<%=category._id%>" selected><%=category.name%></option>
-                <%}else{%>
-                  <option value="<%=category._id%>"><%=category.name%></option>
-                 <%}%>
-        
-              <%})%>
-            </select>
-          </div>
+
+
           <div class="card-action">
             <% if (mode === "Create") { %>
               <button class="btn btn-success" type="submit">Tạo</button>

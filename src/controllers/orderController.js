@@ -1,4 +1,5 @@
 import OrderModel from "../models/orderModel.js"
+import ProductModel from "../models/productModel.js"
 import { ObjectId } from "mongodb"
 
 const sortObjects = [
@@ -7,6 +8,9 @@ const sortObjects = [
     { code: "code_DESC", name: "Mã giảm dần" },
     { code: "code_ASC", name: "Mã tăng dần" },
 ]
+
+const sizes = ["S", "M", "L", "XL"]
+const colors = ["red", "green", "yellow", "white", "black"]
 
 export async function listOrder(req, res) {
     const search = req.query?.search
@@ -45,21 +49,19 @@ export async function listOrder(req, res) {
     }
 
 }
-// export async function renderPageCreateProduct(req, res) {
-//     const categories = await CategoryModel.find({ deletedAt: null })
-//     res.render("pages/products/form", {
-//         title: "Create Products",
-//         mode: "Create",
-//         product: {},
-//         sizes: sizes,
-//         colors: colors,
-//         categories: categories,
-//         err: {}
-//     })
-// }
+export async function renderPageSimulateCreateOrder(req, res) {
+    const products = await ProductModel.find({deletedAt: null})
+    res.render("pages/orders/form", {
+        title: "Create Orders",
+        mode: "Create",
+        order: {},
+        products: products,
+        err: {}
+    })
+}
 
 export async function createOrder(req, res) {
-    const { discount, status, orderItems } = req.body
+    const { discount, orderItems, billingAddress } = req.body
     let subTotal = 0, total = 0, numericalOrder = 1
 
     const lastOrder = await OrderModel.findOne().sort({ createdAt: -1 })
@@ -81,10 +83,11 @@ export async function createOrder(req, res) {
             orderNo: orderNo,
             discount: discount,
             total: total,
-            status: status,
+            status: "created",
             orderItems: orderItems,
             numericalOrder: numericalOrder,
-            createdAt: new Date()
+            createdAt: new Date(),
+            billingAddress: billingAddress
         })
         res.send(rs)
     } catch (error) {
