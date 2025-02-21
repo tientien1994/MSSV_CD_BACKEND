@@ -50,7 +50,7 @@ export async function listOrder(req, res) {
 
 }
 export async function renderPageSimulateCreateOrder(req, res) {
-    const products = await ProductModel.find({deletedAt: null})
+    const products = await ProductModel.find({deletedAt: null}, "code name price sizes colors")
     res.render("pages/orders/form", {
         title: "Create Orders",
         mode: "Create",
@@ -90,6 +90,65 @@ export async function createOrder(req, res) {
             billingAddress: billingAddress
         })
         res.send(rs)
+    } catch (error) {
+        console.log("err", error)
+    }
+}
+
+export async function simulatorCreateOrder(req, res) {
+    console.log("req.body", req.body)
+    const { 
+        discount, itemSelect, quantity, itemColor, itemSize, itemPrice,
+        billingName, billingEmail, billingPhoneNumber, billingAddress: address, billingDistrict, billingCity 
+    } = req.body
+    let subTotal = 0, total = 0, numericalOrder = 1
+
+    const lastOrder = await OrderModel.findOne().sort({ createdAt: -1 })
+
+    if (lastOrder) {
+        numericalOrder = lastOrder.numericalOrder + 1
+    }
+
+    const orderNo = "order-" + numericalOrder
+
+
+
+    const billingAddress = {
+        name: billingName,
+        email: billingEmail,
+        phoneNumber: billingPhoneNumber,
+        address: address,
+        district: billingDistrict, 
+        city: billingCity,
+    }
+
+    const orderItems = itemSelect.map((productId, index)=>{
+        return {
+            productId: new ObjectId(productId),
+            quantity: quantity[index],
+            price: itemPrice[index],
+            color: itemColor[index],
+            sizes: itemSize[index]
+        }
+    })
+    if (orderItems.length > 0) {
+        for (let orderItem of orderItems) {
+            subTotal += (orderItem.quantity * orderItem.price)
+        }
+    }
+    total = subTotal * (100 - discount) / 100
+    try {
+        const rs = await OrderModel.create({
+            orderNo: orderNo,
+            discount: parseFloat(discount),
+            total: total,
+            status: "created",
+            orderItems: orderItems,
+            numericalOrder: numericalOrder,
+            createdAt: new Date(),
+            billingAddress: billingAddress
+        })
+        res.redirect("/orders")
     } catch (error) {
         console.log("err", error)
     }
