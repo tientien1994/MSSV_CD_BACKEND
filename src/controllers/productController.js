@@ -51,7 +51,7 @@ export async function listProduct(req, res) {
 export async function renderPageCreateProduct(req, res) {
     const categories = await CategoryModel.find({ deletedAt: null })
     res.render("pages/products/form", {
-        title: "Create Products",
+        title: "Products",
         mode: "Create",
         product: {},
         sizes: sizes,
@@ -103,7 +103,7 @@ export async function createProduct(req, res) {
             })
         }
         res.render("pages/products/form", {
-            title: "Create Products",
+            title: "Products",
             mode: "Create",
             product: {    
                 sizes: sizeArray, 
@@ -128,7 +128,7 @@ export async function renderPageUpdateProduct(req, res) {
         if (product) {
             console.log("product", product, categories)
             res.render("pages/products/form", {
-                title: "Update Product",
+                title: "Product",
                 mode: "Update",
                 product: product,
                 sizes: sizes,

@@ -34,7 +34,7 @@ export async function listOrder(req, res) {
         const countOrders = await OrderModel.countDocuments(filters)
         const orders = await OrderModel.find(filters).skip(skip).limit(pageSize).sort(sort)
         res.render("pages/orders/list", {
-            title: "Order",
+            title: "Orders",
             orders: orders,
             countPagination: Math.ceil(countOrders / pageSize),
             pageSize,
@@ -52,7 +52,7 @@ export async function listOrder(req, res) {
 export async function renderPageSimulateCreateOrder(req, res) {
     const products = await ProductModel.find({deletedAt: null}, "code name price sizes colors")
     res.render("pages/orders/form", {
-        title: "Create Orders",
+        title: "Orders",
         mode: "Create",
         order: {},
         products: products,

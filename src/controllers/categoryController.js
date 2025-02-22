@@ -3,10 +3,10 @@ import { ObjectId } from "mongodb"
 import { removeVietnameseAccents } from "../common/index.js"
 
 const sortObjects = [
-    { code: "name_DESC", name: "Tên giảm dần" },
-    { code: "name_ASC", name: "Tên tăng dần" },
-    { code: "code_DESC", name: "Mã giảm dần" },
-    { code: "code_ASC", name: "Mã tăng dần" },
+    { code: "name_DESC", name: "Name DESC" },
+    { code: "name_ASC", name: "Name ASC" },
+    { code: "code_DESC", name: "Code DESC" },
+    { code: "code_ASC", name: "Code ASC" },
 ]
 export async function listCategory(req, res) {
     const search = req.query?.search
@@ -47,7 +47,7 @@ export async function listCategory(req, res) {
 }
 export async function renderPageCreateCategory(req, res) {
     res.render("pages/categories/form", {
-        title: "Create Categories",
+        title: "Categories",
         mode: "Create",
         category: {},
         err: {}
@@ -106,7 +106,7 @@ export async function renderPageUpdateCategory(req, res) {
         const category = await CategoryModel.findOne({ _id: new ObjectId(id), deletedAt: null })
         if (category) {
             res.render("pages/categories/form", {
-                title: "Create Categories",
+                title: "Categories",
                 mode: "Update",
                 category: category,
                 err: {}
@@ -169,7 +169,7 @@ export async function renderPageDeleteCategory(req, res) {
         const category = await CategoryModel.findOne({ _id: new ObjectId(id), deletedAt: null })
         if (category) {
             res.render("pages/categories/form", {
-                title: "Delete Categories",
+                title: "Categories",
                 mode: "Delete",
                 category: category,
                 err: {}

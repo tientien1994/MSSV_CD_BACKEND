@@ -1,13 +1,13 @@
 <div class="content">
   <div class="container-fluid">
     <div class="flex items-center justify-content-between">
-      <h4 class="page-title mb-0">Danh sách loại sản phẩm</h4>
+      <h4 class="page-title mb-0">Categories</h4>
       <a class="btn btn-success buttonIcon" href="/categories/create"><i class="la la-plus"></i></a>
       
     </div>
     <div class="flex justify-content-start">
       <div class="flex full-width items-center mt-4">
-        <label for="defaultSelect" class="white-space mr-1">Xắp xếp</label>
+        <label for="defaultSelect" class="white-space mr-1">Sort</label>
         <select class="max-w-20 mb-4px search-input" id="defaultSelect" onchange="changeSort(event)">
           <% sortObjects.forEach(function(sortObject, index){ %>
             <%if(sortObject.code === sort){%>
@@ -25,10 +25,9 @@
     <% if (categories && categories.length > 0) { %>
     <div class="card">
       <div class="card-body">
-        <table class="table table-head-bg-success">
+        <table class="table table-head-bg-danger">
           <thead>
             <tr>
-              <th scope="col">STT</th>
               <th scope="col">Image</th>
               <th scope="col">Code</th>
               <th scope="col">Name</th>
@@ -38,12 +37,11 @@
           <tbody id="listCategory">
             <% categories.forEach(function(category, index){ %>
             <tr>
-              <td><%=index+1%></td>
               <td>
                 <img
                   src="/static/assets/img/<%=category.image%>"
                   alt="image"
-                  class="category-label"
+                  class="category-label img-thumbnail"
                 />
               </td>
               <td><%=category.code%></td>
@@ -83,7 +81,7 @@
             <%}%> <% }); %>
           </select>
         </div>
-        <ul class="pagination pg-primary mb-0">
+        <ul class="pagination pg-danger mb-0">
           <li class="page-item">
             <a class="page-link" aria-label="Previous" onclick="prevPage()">
               <span aria-hidden="true">&laquo;</span>
