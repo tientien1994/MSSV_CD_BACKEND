@@ -2,14 +2,13 @@
   <div class="container-fluid">
     <div class="flex items-center justify-content-between">
       <h4 class="page-title mb-0">Danh sách loại sản phẩm</h4>
-      <a class="btn btn-default" href="/categories/create">Tạo loại sản phẩm</a>
-      <!-- <a class="btn btn-default" onclick="toggleCategory()">Tạo modal</a> -->
+      <a class="btn btn-success buttonIcon" href="/categories/create"><i class="la la-plus"></i></a>
       
     </div>
-    <div class="flex justify-content-end mb-1">
-      <div class="form-group flex full-width items-center">
+    <div class="flex justify-content-start">
+      <div class="flex full-width items-center mt-4">
         <label for="defaultSelect" class="white-space mr-1">Xắp xếp</label>
-        <select class="form-control form-control max-w-20 mb-4px" id="defaultSelect" onchange="changeSort(event)">
+        <select class="max-w-20 mb-4px search-input" id="defaultSelect" onchange="changeSort(event)">
           <% sortObjects.forEach(function(sortObject, index){ %>
             <%if(sortObject.code === sort){%>
               <option value="<%=sortObject.code%>" selected ><%=sortObject.name%></option>
@@ -49,16 +48,18 @@
               </td>
               <td><%=category.code%></td>
               <td><%=category.name%></td>
-              <td>
+              <td class="flex gap-4">
                 <a
-                  class="btn btn-primary btn-sm"
+                  class="btn btn-primary buttonIcon"
                   href="/categories/update/<%=category._id%>"
-                  >Sửa</a
+                  ><i class="la la-pencil-square"></i>
+                  </a
                 >
                 <a
-                  class="btn btn-danger btn-sm"
+                  class="btn btn-danger btn-sm buttonIcon"
                   href="/categories/delete/<%=category._id%>"
-                  >Xoá</a
+                  >
+                  <i class="la la-trash"></i></a
                 >
               </td>
             </tr>
@@ -66,7 +67,7 @@
           </tbody>
         </table>
       </div>
-      <div class="card-body flex justify-content-center items-center">
+      <div class="card-body flex justify-content-center items-center gap-4">
         <div class="form-group flex justify-content-center items-center p-0 mr-1">
           <label for="defaultSelect" class="white-space mb-0 mr-1">Page Size</label>
           <select
